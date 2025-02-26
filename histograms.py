@@ -1,16 +1,21 @@
 import numpy as np
-from load import *
+from splitData import *
 import matplotlib.pyplot as plt
 
 plt.figure(figsize=(8, 7))
-u = np.floor(np.sqrt(M))
-v = np.ceil(float(M) / u)
+u = int(np.floor(np.sqrt(M0)))
+v = int(np.ceil(float(M0) / u))
 
+i = 0
+for lbl in labels:
+    plt.subplot(u, v, i + 1)
+    i += 1
+    # Plot histograms for both groups
+    plt.hist(D0[lbl], bins=20, color='blue', alpha=0.5)
+    plt.hist(D1[lbl], bins=20, color='red', alpha=0.5)
+    
+    plt.xlabel(lbl)
 
-for i in range(M):
-    plt.subplot(int(u), int(v), i + 1)
-    plt.hist(X[:, i], color=((1 - (i * 0.1), i / M, 0.1 * i)))
-    plt.xlabel(attributeNames[i])
-    plt.ylim(0, N / 2)
-
+plt.figlegend(["chd = 0", "chd = 1"], loc="lower right", fontsize=12, frameon=True)
+plt.tight_layout()
 plt.show()
