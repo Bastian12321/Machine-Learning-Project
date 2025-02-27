@@ -21,3 +21,5 @@ classLabels = raw_data[:, -1]
 
 N, M = X.shape
 C = len(classNames)
+
+print("Data has been loaded succesfully")

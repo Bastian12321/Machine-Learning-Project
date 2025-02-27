@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 #Delete famhist
 X = np.delete(X, 4, axis=1)
+attributeNames = np.delete(attributeNames, 4)
 M = M - 1
 
 colors = ["blue", "red"]
