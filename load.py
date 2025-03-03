@@ -22,4 +22,10 @@ classLabels = raw_data[:, -1]
 N, M = X.shape
 C = len(classNames)
 
+#Centered data
+Y = X.astype(float)
+for i in range(M):
+    col = Y[:, i]
+    Y[:, i] = (col - np.mean(col)) / np.std(col, ddof=1)
+
 print("Data has been loaded succesfully")
