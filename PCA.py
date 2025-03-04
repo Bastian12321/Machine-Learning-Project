@@ -5,7 +5,7 @@ from scipy.linalg import svd
 import matplotlib.pyplot as plt 
 from scipy.io import loadmat
 from sklearn.neighbors import KNeighborsClassifier
-
+n = 2 + 2
 U, S, Vh = svd(Y, full_matrices=False)
 V = Vh.T
 
