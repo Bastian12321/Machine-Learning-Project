@@ -1,8 +1,11 @@
 from splitData import *
 import matplotlib.pyplot as plt
 
-D0_standardized = (D0_plot - D0_plot.mean()) / D0_plot.std(ddof=1)
-D1_standardized = (D1_plot - D1_plot.mean()) / D1_plot.std(ddof=1)
+D_mean = df.drop(columns=['chd', 'famhist']).mean()
+D_std = df.drop(columns=['chd', 'famhist']).std(ddof=1)
+
+D0_standardized = (D0_plot - D_mean) / D_std
+D1_standardized = (D1_plot - D_mean) / D_std
 
 positions_0 = np.arange(1, M_plot + 1) * 2 - 1 
 positions_1 = np.arange(1, M_plot + 1) * 2
