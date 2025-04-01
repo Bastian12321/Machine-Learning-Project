@@ -1,6 +1,5 @@
 from splitData import *
 import matplotlib.pyplot as plt
-
 D_mean = df.drop(columns=['chd', 'famhist']).mean()
 D_std = df.drop(columns=['chd', 'famhist']).std(ddof=1)
 
