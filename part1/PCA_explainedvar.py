@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.io import loadmat
 from sklearn.neighbors import KNeighborsClassifier
 import sympy as sp
-    
+
 U, S, Vh = svd(Y, full_matrices=False)
 V = Vh.T
 rho = (S * S) / (S * S).sum()
