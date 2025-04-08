@@ -7,9 +7,14 @@ from sklearn import model_selection
 from dtuimldmtools import rlr_validate
 
 from standardize import *
-
-X = df.drop(columns=['ldl']).values
+#ER LAVET TIL PLOT!
+#Remove redundant attributes and the attribute we want to predict from dataset
+unwanted_attributes = ['obesity', 'alcohol', 'typea', 'ldl', 'famhist', 'chd']
+D = df.drop(columns=(unwanted_attributes))
+X = D.values
+variables = ["Offset"] + D.columns.tolist()
 y = df['ldl'].values
+M = len(variables)
 
 K = 10
 CV = model_selection.KFold(K, shuffle=True)
@@ -121,6 +126,36 @@ for train_index, test_index in CV.split(X, y):
 
 plt.show()
 
-print(np.log10(opt_lambda))
+print("Linear regression without feature selection:")
+print("- Training error: {0}".format(Error_train.mean()))
+print("- Test error:     {0}".format(Error_test.mean()))
+print(
+    "- R^2 train:     {0}".format(
+        (Error_train_nofeatures.sum() - Error_train.sum())
+        / Error_train_nofeatures.sum()
+    )
+)
+print(
+    "- R^2 test:     {0}\n".format(
+        (Error_test_nofeatures.sum() - Error_test.sum()) / Error_test_nofeatures.sum()
+    )
+)
+print("Regularized linear regression:")
+print("- Training error: {0}".format(Error_train_rlr.mean()))
+print("- Test error:     {0}".format(Error_test_rlr.mean()))
+print(
+    "- R^2 train:     {0}".format(
+        (Error_train_nofeatures.sum() - Error_train_rlr.sum())
+        / Error_train_nofeatures.sum()
+    )
+)
+print(
+    "- R^2 test:     {0}\n".format(
+        (Error_test_nofeatures.sum() - Error_test_rlr.sum())
+        / Error_test_nofeatures.sum()
+    )
+)
 
-
+print("Weights in last fold:")
+for m in range(M):
+    print("{:>15} {:>15}".format(variables[m], np.round(w_rlr[m, -1], 2)))
