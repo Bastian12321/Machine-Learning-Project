@@ -15,10 +15,7 @@ lin_reg = []
 ANN = []
 Baseline = []
 for K in range(2, K1 + 1):
-    CV = model_selection.KFold(K, shuffle=True)
-    lin_reg.append(train_ridge_regression(K, X, y, M, attributeNames, CV))
-    ANN.append(train_ANN(K, X, y, M, CV))
-    print(K)
+    
 print(lin_reg)
 print(ANN)
 print("done")
