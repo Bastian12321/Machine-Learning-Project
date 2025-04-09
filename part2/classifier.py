@@ -1,25 +1,24 @@
 import numpy as np
 import pandas as pd
+from sklearn.discriminant_analysis import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.neural_network import MLPClassifier
 from sklearn import model_selection
+from sklearn.pipeline import make_pipeline
 from standardize import *
 
 def compute_baseline_error(y_train, y_test):
-    # Determine the majority class in y_train
     majority_class = 1 if np.sum(y_train) > len(y_train) / 2 else 0
     
-    # Create a prediction array with all entries set to the majority class
     y_pred_baseline = np.full(shape=len(y_test), fill_value=majority_class, dtype=int)
     
-    # Compute classification error
     error = np.mean(y_pred_baseline != y_test)
     return error
 
 def evaluate_log_model(X_train, y_train, X_test, y_test, l):
-    model = LogisticRegression(C=l, max_iter=2000)
+    model = make_pipeline(StandardScaler(), LogisticRegression(C=l, max_iter=2000))
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     
@@ -30,7 +29,7 @@ def evaluate_log_model(X_train, y_train, X_test, y_test, l):
     return error_score
         
 def evaluate_ANN_model(X_train, y_train, X_test, y_test, h):
-    model = MLPClassifier(hidden_layer_sizes=(h,), alpha=1, max_iter=10000, random_state=42)
+    model = make_pipeline(StandardScaler(), MLPClassifier(hidden_layer_sizes=(h,), alpha=1, max_iter=10000, random_state=42))
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     
@@ -119,7 +118,7 @@ for train_outer_index, test_outer_index in CV_outer.split(X, y):
                     outer_ANN_model_error, 
                     optimal_lambda, outer_log_model_error, 
                     compute_baseline_error(y_outer_train, y_outer_test)])
-
+    print(iteration)
     iteration += 1
 
 results_df = pd.DataFrame(results, columns=result_columns)

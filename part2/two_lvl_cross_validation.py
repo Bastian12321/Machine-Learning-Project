@@ -19,5 +19,3 @@ for K in range(2, K1 + 1):
 print(lin_reg)
 print(ANN)
 print("done")
-
-
