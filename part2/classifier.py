@@ -14,8 +14,8 @@ def compute_baseline_error(y_train, y_test):
     
     y_pred_baseline = np.full(shape=len(y_test), fill_value=majority_class, dtype=int)
     
-    error = np.mean(y_pred_baseline != y_test)
-    return error
+    error_score = np.mean(y_pred_baseline != y_test)
+    return error_score
 
 def evaluate_log_model(X_train, y_train, X_test, y_test, l):
     model = make_pipeline(StandardScaler(), LogisticRegression(C=l, max_iter=2000))
@@ -29,7 +29,7 @@ def evaluate_log_model(X_train, y_train, X_test, y_test, l):
     return error_score
         
 def evaluate_ANN_model(X_train, y_train, X_test, y_test, h):
-    model = make_pipeline(StandardScaler(), MLPClassifier(hidden_layer_sizes=(h,), alpha=1, max_iter=10000, random_state=42))
+    model = make_pipeline(StandardScaler(), MLPClassifier(hidden_layer_sizes=(h,), alpha=0.01, max_iter=10000, random_state=42))
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     
@@ -49,7 +49,7 @@ K_outer = 10
 K_inner = 10
 CV_outer = model_selection.KFold(K_outer, shuffle=True, random_state=27)
 
-hidden_layers = [1, 5, 10, 50, 100, 150, 200, 250]
+hidden_layers = [1, 2, 3, 4, 7]
 lambdas = np.power(10.0, range(-5, 9))
 result_columns = ['ANN-hiddenlayers', 'ANN-error', 'log-lambda', 'log-error', 'Baseline-error']
 results = []
